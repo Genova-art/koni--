@@ -5,11 +5,14 @@ const cors = require("cors");
 const serverless = require("serverless-http");
 
 const sequelize = require("./config/db");
+require("./models/User"); // Daftarkan model User
+
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
+// Middleware
 app.use(
   cors({
     origin: true,
@@ -23,7 +26,7 @@ app.use(express.json());
 app.use("/api", userRoutes);
 app.use("/api", authRoutes);
 
-// Cek API
+// Test API
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -31,11 +34,15 @@ app.get("/", (req, res) => {
   });
 });
 
-// Koneksi database
+// Sinkronisasi database
 sequelize
-  .authenticate()
-  .then(() => console.log("Database Connected"))
-  .catch((err) => console.log(err));
+  .sync({ alter: true })
+  .then(() => {
+    console.log("✅ Database Connected & Tables Synced");
+  })
+  .catch((err) => {
+    console.error("❌ Database Error:", err);
+  });
 
 module.exports = app;
 module.exports.handler = serverless(app);
