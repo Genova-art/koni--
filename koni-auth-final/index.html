@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KONI Pusat – Komite Olahraga Nasional Indonesia</title>
+    <meta name="description" content="Website resmi KONI Pusat – informasi terbaru seputar olahraga nasional Indonesia, jadwal kompetisi, profil atlet, dan berita." />
+    <meta name="theme-color" content="#CC0000" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="KONI Pusat" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="KONI Pusat – Komite Olahraga Nasional Indonesia" />
+    <meta property="og:description" content="Informasi terbaru seputar olahraga nasional Indonesia." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://koni.or.id" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="KONI Pusat" />
+    <meta name="twitter:description" content="Komite Olahraga Nasional Indonesia – Merah Putih Berprestasi" />
+    <script>
+      // Bersihkan semua Service Worker lama dulu, lalu daftarkan yang baru
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          // Unregister semua SW lama
+          const regs = await navigator.serviceWorker.getRegistrations();
+          for (const reg of regs) await reg.unregister();
+          // Hapus semua cache lama
+          const keys = await caches.keys();
+          await Promise.all(keys.map(k => caches.delete(k)));
+          // Daftar SW baru
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
